@@ -43,10 +43,11 @@ class Movie(Seat):
     def set_recommend_Seat(self, re_seat):
         self.recommend_Seat = re_seat
         
-    def set_User_Info(self, name, number, unique):
+    def set_User_Info(self, name, number, unique, passwd):
         self.Client_name = name
         self.Client_number = number
         self.Client_unique = unique
+        self.passwd = passwd
         
     def display(self):
         print(self.Movie_name)
@@ -57,15 +58,27 @@ class Movie(Seat):
         print(self.recommend_Seat)
         print(self.Client_name)
         
+    def reset(self):
+        self.Movie_name = ""
+        self.Jangre = ""
+        self.theater = ""
+        self.time = ""
+        self.Seat_name = ""
+        self.recommend_Seat = ""
+        self.Client_name = ""
+        self.Client_number = ""
+        self.Client_unique = 0
+        self.passwd = ""
         
-#Suzume                         외국 자막
+        
+#Suzume                         외국자막
 #Exorcist                       공포
-#Lala_Land                      음악 영화
+#Lala_Land                      음악
 #John_Wick_4                    액션
-#Guardians_of_the_Galaxy3       영상미 sf
+#Guardians_of_the_Galaxy3       sf
 
 recommend_Seat_table = {
-    ("외국자막", "1관"): "",
+    ("외국자막", "1관"): "i6, a5, a10",
     ("외국자막", "2관"): "",
     ("외국자막", "3관"): "",
     ("외국자막", "4관"): "",
@@ -86,8 +99,16 @@ recommend_Seat_table = {
     ("액션", "4관"): "",
     ("액션", "5관"): "",
     ("sf", "1관"): "",
-    ("sf", "2관"): "",
+    ("sf", "2관"): "kkkkkkkkkkkkk",
     ("sf", "3관"): "",
     ("sf", "4관"): "",
-    ("sf", "5관"): "",
+    ("sf", "5관"): ""
+}
+
+Select_Jangre = {
+    "Suzume": "외국자막",
+    "Exorcist": "공포",
+    "Lala_Land": "음악",
+    "John_Wick_4": "액션",
+    "Guardians_of_the_Galaxy3": "sf"
 }

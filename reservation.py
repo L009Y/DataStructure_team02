@@ -25,8 +25,8 @@ def show_recommend_seat():
 def seat_click_button(seat):
     temp_Movie.set_Seat(seat)
     
-#고객 정보 입력 button을 click 시, 
-def User_Info_click_button(name, number, unique, passwd):
+#고객 정보 입력 button을 click 시, 마지막 정보까지 채우고, 영화 이름에 맞게 노드 추가 및 임시 class 리셋
+def user_info_click_button(name, number, unique, passwd):
     temp_Movie.set_User_Info(name, number, unique, passwd)
     temp_name = temp_Movie.get_M_name()
     #임시 class를 실제 영화에 따른 노드로 추가
@@ -46,11 +46,13 @@ def User_Info_click_button(name, number, unique, passwd):
     #임시 class 초기화
     temp_Movie.reset()
     
-    
-movie_click_button("d", "c", "a", "h")
-seat_click_button("4444")
-temp_Movie.set_User_Info("bbbb", "ddddd", "ddada")
-temp_Movie.display()
 
-temp_re_seat = recommend_Seat_table.get(("공포", "2관"))
-print(temp_re_seat)
+# movie_click_button("d", "c", "a", "h")
+# seat_click_button("4444")
+# temp_Movie.set_User_Info("bbbb", "ddddd", "ddada")
+# temp_Movie.display()
+
+# temp_re_seat = recommend_Seat_table.get(("공포", "2관"))
+# print(temp_re_seat)
+#x = Select_Jangre.get("Suzume")
+#print(x)
