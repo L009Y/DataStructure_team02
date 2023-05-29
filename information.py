@@ -1,114 +1,47 @@
-class Client:
-    def __init__(self, name, number, unique, passwd):
-        self.Client_name = name
-        self.Client_number = number
-        self.Client_unique = unique       # 0 : 없음, 1 : 장애인, 2 : 국가 유공자
-        self.passwd = passwd
+# -------------------------------
+# Movie
+# 영화 미정 : -1 (초기값)
+# Suzume : 1
+# Exorcist : 2
+# Lala_Land : 3
+# John_Wick_4 : 4
+# Guardians_of_the_Galaxy3 : 5
+# -------------------------------
+# Jangre
+# Suzume : 외국자막
+# Exorcist : 공포
+# Lala_Land : 음악
+# John_Wick_4 : 액션
+# Guardians_of_the_Galaxy3 : sf
+# -------------------------------
 
-class Seat(Client):
-    def __init__(self, name, re_seat):
-        super().__init__("", "", 0, "")
-        self.Seat_name = name
-        self.recommend_Seat = re_seat
-
-class Movie(Seat):
+class Movie:
     def __init__(self):
-        super().__init__("", "")
-        self.Movie_name = ""
+        self.Movie_num = -1
         self.Jangre = ""
         self.theater = ""
         self.time = ""
-        
-    def get_M_name(self):
-        return self.Movie_name
-    
-    def get_Jangre(self):
-        return self.Jangre
-    
-    def get_Theater(self):
-        return self.theater
-    
-    def get_Seat(self):
-        return self.Seat_name
-    
-    def set_Movie(self, movie, jangre, theater, time):
-        self.Movie_name = movie
-        self.Jangre = jangre
-        self.theater = theater
-        self.time = time
-
-    def set_Seat(self, seat):
-        self.Seat_name = seat
-        
-    def set_recommend_Seat(self, re_seat):
-        self.recommend_Seat = re_seat
-        
-    def set_User_Info(self, name, number, unique, passwd):
-        self.Client_name = name
-        self.Client_number = number
-        self.Client_unique = unique
-        self.passwd = passwd
+        # ------------------------
+        self.Seat_name = ""
+        # ------------------------
+        self.Client_name = ""
+        self.Client_number = ""
+        self.passwd = ""
         
     def display(self):
-        print(self.Movie_name)
+        print(self.Movie_num)
         print(self.Jangre)
         print(self.theater)
         print(self.time)
         print(self.Seat_name)
-        print(self.recommend_Seat)
         print(self.Client_name)
         
     def reset(self):
-        self.Movie_name = ""
+        self.Movie_num = -1
         self.Jangre = ""
         self.theater = ""
         self.time = ""
         self.Seat_name = ""
-        self.recommend_Seat = ""
         self.Client_name = ""
         self.Client_number = ""
-        self.Client_unique = 0
         self.passwd = ""
-        
-        
-#Suzume                         외국자막
-#Exorcist                       공포
-#Lala_Land                      음악
-#John_Wick_4                    액션
-#Guardians_of_the_Galaxy3       sf
-
-recommend_Seat_table = {
-    ("외국자막", "1관"): "i6, a5, a10",
-    ("외국자막", "2관"): "",
-    ("외국자막", "3관"): "",
-    ("외국자막", "4관"): "",
-    ("외국자막", "5관"): "",
-    ("공포", "1관"): "",
-    ("공포", "2관"): "ㅇㅇㅇㅇ",
-    ("공포", "3관"): "",
-    ("공포", "4관"): "",
-    ("공포", "5관"): "",
-    ("음악", "1관"): "",
-    ("음악", "2관"): "",
-    ("음악", "3관"): "",
-    ("음악", "4관"): "",
-    ("음악", "5관"): "",
-    ("액션", "1관"): "",
-    ("액션", "2관"): "",
-    ("액션", "3관"): "",
-    ("액션", "4관"): "",
-    ("액션", "5관"): "",
-    ("sf", "1관"): "",
-    ("sf", "2관"): "kkkkkkkkkkkkk",
-    ("sf", "3관"): "",
-    ("sf", "4관"): "",
-    ("sf", "5관"): ""
-}
-
-Select_Jangre = {
-    "Suzume": "외국자막",
-    "Exorcist": "공포",
-    "Lala_Land": "음악",
-    "John_Wick_4": "액션",
-    "Guardians_of_the_Galaxy3": "sf"
-}

@@ -1,58 +1,55 @@
 from data_structure.LinkedList.Linked_List import *
+from data_structure.Queue.queue_plus import *
 from information import *
-                            
-Suzume = LinkedList()       #외국 자막
-Exorcist = LinkedList()     #공포
-Lala_Land = LinkedList()    #음악 영화
-John_Wick_4 = LinkedList()  #액션
-Guardians_of_the_Galaxy3 = LinkedList()     #영상미 sf
+import copy
 
-#임시 Movie class
+Book_class1 = List_Queue()  # 스즈메
+Book_class2 = List_Queue()  # 엑소시스트
+Book_class3 = List_Queue()  # 라라랜드
+Book_class4 = List_Queue()  # 존 윅 4
+Book_class5 = List_Queue()  # 가오갤3
+Book_yes_or_no = "아니오"
+count_node = 0
+count_recommend_seat = 0
+                            
+Suzume = linked_list()       # 외국자막
+Exorcist = linked_list()     # 공포
+Lala_Land = linked_list()    # 음악
+John_Wick_4 = linked_list()  # 액션
+Guardians_of_the_Galaxy3 = linked_list()     # sf
+
+# 임시 Movie class
 temp_Movie = Movie()
 
-#영화 선택 button을 click 시, temp_Movie에 영화, 장르, 관, 시간 정보 저장
+# 영화 선택 button을 click 시, temp_Movie에 영화, 장르, 관, 시간 정보 저장
 def movie_click_button(movie, jangre, theater, time):
-    temp_Movie.set_Movie(movie, jangre, theater, time)
+    temp_Movie.Movie_num = movie
+    temp_Movie.Jangre = jangre
+    temp_Movie.theater = theater
+    temp_Movie.time = time
 
-#좌석 GUI를 보여주기 전, 장르과 관에 따른 추천 자리를 저장 및 좌석 GUI 색칠
-def show_recommend_seat():
-    temp_jangre = temp_Movie.get_Jangre()
-    temp_theater = temp_Movie.get_Theater()
-    temp_re_seat = recommend_Seat_table.get((temp_jangre, temp_theater))
-    temp_Movie.set_recommend_Seat(temp_re_seat)
-
-#좌석 선택 button을 click 시, 좌석 정보 저장
+# 좌석 선택 button을 click 시, 좌석 정보 저장
 def seat_click_button(seat):
-    temp_Movie.set_Seat(seat)
+    temp_Movie.Seat_name = seat
     
-#고객 정보 입력 button을 click 시, 마지막 정보까지 채우고, 영화 이름에 맞게 노드 추가 및 임시 class 리셋
-def user_info_click_button(name, number, unique, passwd):
-    temp_Movie.set_User_Info(name, number, unique, passwd)
-    temp_name = temp_Movie.get_M_name()
-    #임시 class를 실제 영화에 따른 노드로 추가
-    if temp_name == 'Suzume':
-        Suzume.append(temp_Movie)
-    elif temp_name == 'Exorcist':
-        Exorcist.append(temp_Movie)
-    elif temp_name == 'Lala_Land':
-        Lala_Land.append(temp_Movie)
-    elif temp_name == 'John_Wick_4':
-        John_Wick_4.append(temp_Movie)
-    elif temp_name == 'Guardians_of_the_Galaxy3':
-        Guardians_of_the_Galaxy3.append(temp_Movie)
+# 고객 정보 입력 button을 click 시, 마지막 정보까지 채우고, 영화 이름에 맞게 노드 추가 및 임시 class 리셋
+def user_info_click_button(name, number, passwd):
+    temp_Movie.Client_name = name
+    temp_Movie.Client_number = number
+    temp_Movie.passwd = passwd
+    copy_Movie = copy.deepcopy(temp_Movie)      # 깊은 복사
+    temp_name = temp_Movie.Movie_num
+    
+    # 임시 class를 실제 영화에 따른 노드로 추가
+    if temp_name == 1:
+        Suzume.append(copy_Movie)
+    elif temp_name == 2:
+        Exorcist.append(copy_Movie)
+    elif temp_name == 3:
+        Lala_Land.append(copy_Movie)
+    elif temp_name == 4:
+        John_Wick_4.append(copy_Movie)
+    elif temp_name == 5:
+        Guardians_of_the_Galaxy3.append(copy_Movie)
     else:
         print("영화 없음!")
-    
-    #임시 class 초기화
-    temp_Movie.reset()
-    
-
-# movie_click_button("d", "c", "a", "h")
-# seat_click_button("4444")
-# temp_Movie.set_User_Info("bbbb", "ddddd", "ddada")
-# temp_Movie.display()
-
-# temp_re_seat = recommend_Seat_table.get(("공포", "2관"))
-# print(temp_re_seat)
-#x = Select_Jangre.get("Suzume")
-#print(x)
