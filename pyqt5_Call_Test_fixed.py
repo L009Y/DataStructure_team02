@@ -1,6 +1,6 @@
 path = "C:\\Users\\admin\\Desktop\\파이썬\\ui_module\\"
 import copy
-from data_structure.Queue.queue_plus import *
+from data_structure.Linked_Queue import *
 from information import *
 from reservation import *
 from table import *
@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
         # 버튼 클릭 이벤트 연결 함수 호출
         self.Event_Connect()
 
-
+# ==============================================================================================
 # ==============================================================================================
 # ==============================================================================================
     # 영화, 관, 시간 선택 함수
@@ -78,8 +78,7 @@ class MainWindow(QMainWindow):
         global Book_yes_or_no
         if Book_yes_or_no == "예":
             str_movie = repr(temp_Movie.Movie_num)
-            name_str = str_movie + ", " + temp_Movie.theater + ", " + temp_Movie.time + ", " + \
-            temp_Movie.Seat_name + ", " + temp_Movie.Client_name
+            name_str = str_movie + ", " + temp_Movie.theater + ", " + temp_Movie.time + ", " + temp_Movie.Seat_name + ", " + temp_Movie.Client_name
             
             if int(str_movie) == 1:
                 Book_class1.enqueue(name_str)
@@ -98,7 +97,23 @@ class MainWindow(QMainWindow):
         temp_Movie.reset()
         
         self.change_window_reverse()
+        
+    # ==========================================================================================
+    # '관리' 버튼 클릭 시, 노드 관리 gui 열기
+    def Manage_Node(self):
+        self.open_manage_node()
+        
+        linkedLists = [Suzume, Exorcist, Lala_Land, John_Wick_4, Guardians_of_the_Galaxy3]
+        for linkedList in linkedLists:
+            if linkedList.head == None:
+                continue
+            
+            for k in range(linkedList.count_nodes()):
+                node = linkedList.get(k)
+                str_info = repr(node.Movie_num) + ", " + node.theater + ", " + node.time + ", " + node.Seat_name + ", " + node.Client_name
+                self.show_node.append(str_info)
     
+# ==============================================================================================
 # ==============================================================================================
 # ==============================================================================================
     # 좌석 gui를 열 때, 추천 자리를 색칠하도록 하는 함수
@@ -115,54 +130,44 @@ class MainWindow(QMainWindow):
         movie -= 1
         recommend_Seats = recommend_Seat_table.get((jangre, theater))
         linkedLists = [Suzume, Exorcist, Lala_Land, John_Wick_4, Guardians_of_the_Galaxy3]
-        soldOut_Seats = []
 
-        if (linkedLists[movie].head == None):
+        if linkedLists[movie].head == None:
             return False
             
         for i in range(linkedLists[movie].count_nodes()):
             node = linkedLists[movie].get(i)
-
-            if (node.time == time and node.theater == theater):
-                seatInfo = {
-                    "seatName": node.Seat_name,
-                    "seatTheater": node.theater,
-                    "seatTime": node.time
-                }
-                soldOut_Seats.append(seatInfo)
-            
-        for soldOut_Seat in soldOut_Seats:
-            target_button = self.findChild(QPushButton, soldOut_Seat['seatName'])
-            if target_button:
-                target_button.setEnabled(False)
-            for recommend_Seat in recommend_Seats:
-                temp_recommend_seat = self.findChild(QPushButton, recommend_Seat)
-                if target_button == temp_recommend_seat:
-                    target_button.setStyleSheet("background-color: rgb(188, 188, 188);" + recommend_Seat_Color[jangre])
-                    break
-                target_button.setStyleSheet("background-color: rgb(188, 188, 188);")
+            if node.time == time and node.theater == theater:
+                target_button = self.findChild(QPushButton, node.Seat_name)
+                if target_button:
+                    target_button.setEnabled(False)
+                
+                for recommend_Seat in recommend_Seats:
+                    temp_recommend_seat = self.findChild(QPushButton, recommend_Seat)
+                    if target_button == temp_recommend_seat:
+                        target_button.setStyleSheet("background-color: rgb(188, 188, 188);" + recommend_Seat_Color[jangre])
+                        break
+                    target_button.setStyleSheet("background-color: rgb(188, 188, 188);")
    
     # ==========================================================================================
     # 예약할 것 인지 질문
     def Full_recommend_seat(self, movie, jangre, theater, time):
         recommend_seats = recommend_Seat_table.get((jangre, theater))
         
-        global count_recommend_seat
         count_recommend_seat = len(recommend_seats)
-        
-        global count_node
         count_node = 0
 
         movie -= 1
         linkedLists = [Suzume, Exorcist, Lala_Land, John_Wick_4, Guardians_of_the_Galaxy3]
 
-        if (linkedLists[movie].head == None):
+        if linkedLists[movie].head == None:
             return False
             
         for i in range(linkedLists[movie].count_nodes()):
             node = linkedLists[movie].get(i)
-            if (node.time == time and node.theater == theater):
-                count_node += 1
+            if node.time == time and node.theater == theater:
+                for j in range(count_recommend_seat):
+                    if recommend_seats[j] == node.Seat_name:
+                        count_node += 1
                 if count_recommend_seat == count_node:
                     break
                 
@@ -183,7 +188,58 @@ class MainWindow(QMainWindow):
         Book_yes_or_no = sender.text()
         
         self.dialog2.close()
-    
+        
+    # ==========================================================================================
+    # 노드의 고객 이름 정보 입력 받고, 삭제 및 예약을 처리하는 함수
+    def delete_node(self):
+        Input_name = self.delete_name.text()
+        linkedLists = [Suzume, Exorcist, Lala_Land, John_Wick_4, Guardians_of_the_Galaxy3]
+        linkedQueues = [Book_class1, Book_class2, Book_class3, Book_class4, Book_class5]
+        old_node_yes = 0
+        
+        for i in range(5):
+            k = 0
+            x = 0
+            if linkedLists[i].head == None:
+                continue
+            length = linkedLists[i].count_nodes()
+            
+            while k < length:
+                node = linkedLists[i].get(k)
+                str_node = repr(node.Movie_num) + ", " + node.theater + ", " + node.time + ", " + node.Seat_name + ", " + node.Client_name
+            
+                if str_node == Input_name:
+                    temp_node = copy.deepcopy(node)
+                    linkedLists[i].delete(node)
+                    
+                    if linkedQueues[i].head != None:
+                        pre_data = linkedQueues[i].peek()
+
+                        if pre_data[:12] == str_node[:12]:
+                            temp_node.Client_name = pre_data[18:]
+                            linkedLists[i].append(temp_node)
+                            linkedQueues[i].dequeue()
+                            old_node_yes = 1
+                            
+                    length = linkedLists[i].count_nodes()
+                    continue
+                k = k + 1
+                
+            if old_node_yes == 1:
+                while x < length:
+                    node2 = linkedLists[i].get(x)
+                    str_node2 = repr(node2.Movie_num) + ", " + node2.theater + ", " + node2.time + ", " + node2.Seat_name + ", " + node2.Client_name
+                    if str_node2 == pre_data:
+                        linkedLists[i].delete(node2)
+                        length = linkedLists[i].count_nodes()
+                        continue
+                    x = x + 1
+                old_node_yes = 0
+
+        self.show_node.clear()
+        self.show_node.append('다시 나갔다 들어오세요.')
+        
+# ==============================================================================================
 # ==============================================================================================
 # ==============================================================================================
     # 구글처럼 창 변경 - 관에 따라 ui 창 변경
@@ -233,6 +289,17 @@ class MainWindow(QMainWindow):
         self.Event_Connect()
 
     # ==========================================================================================
+    # 노드 관리 창 열기
+    def open_manage_node(self):
+        # 기존 위젯 삭제
+        self.centralWidget().setParent(None)
+        
+        # 새로운 UI 파일 로드
+        loadUi(path + 'Admin.ui', self)
+        self.Back.clicked.connect(self.Back_widget)
+        self.Check.clicked.connect(self.delete_node)
+
+    # ==========================================================================================
     # naver처럼 새로운 창 열기
     # 고객 정보 입력 창 열기
     def open_login(self):
@@ -257,61 +324,8 @@ class MainWindow(QMainWindow):
         
         # 이벤트 연결 함수
         self.Event_Connect()
-        
-    # ==========================================================================================
-    # 노드 관리 gui 열기
-    def Manage_Node(self):
-        # 기존 위젯 삭제
-        self.centralWidget().setParent(None)
-        
-        # 새로운 UI 파일 로드
-        loadUi(path + 'Admin.ui', self)
-        self.Back.clicked.connect(self.Back_widget)
-        self.Check.clicked.connect(self.delete_node)
-        
-        linkedLists = [Suzume, Exorcist, Lala_Land, John_Wick_4, Guardians_of_the_Galaxy3]
-        for linkedList in linkedLists:
-            if linkedList.head == None:
-                continue
-            
-            for k in range(linkedList.count_nodes()):
-                node = linkedList.get(k)
-                str_info = repr(node.Movie_num) + ", " + node.theater + ", " + node.time + ", " + node.Seat_name + ", " + node.Client_name
-                self.show_node.append(str_info)
-        
-    # ==========================================================================================
-    # 노드의 고객 이름 정보 입력 받는 함수
-    def delete_node(self):
-        Input_name = self.delete_name.text()
-        linkedLists = [Suzume, Exorcist, Lala_Land, John_Wick_4, Guardians_of_the_Galaxy3]
-        linkedQueues = [Book_class1, Book_class2, Book_class3, Book_class4, Book_class5]
-        
-        for i in range(5):
-            if linkedLists[i].head == None:
-                continue
 
-            for k in range(linkedLists[i].count_nodes()):
-                node = linkedLists[i].get(k)
-                str_node = repr(node.Movie_num) + ", " + node.theater + ", " + node.time + ", " + node.Seat_name + ", " + node.Client_name
-                if Input_name == str_node:
-                    pre_data = linkedQueues[i].peek()
-                    
-                    if linkedQueues[i].head != None and pre_data[0:12] == str_node[0:12]:
-                        temp_node = copy.deepcopy(node)
-                        temp_node.Client_name = pre_data[18:]
-                        linkedLists[i].append(temp_node)
-                        # 코드 보류
-                        linkedQueues[i].dequeue()
-                    
-                    linkedLists[i].delete(node)
-
-        self.show_node.clear()
-        self.show_node.append('다시 나갔다 들어오세요.')
-        
-        # --------------------------------------------------------------------------------------
-        # 노드 삭제 후, 예약
-        
-
+# ==============================================================================================
 # ==============================================================================================
 # ==============================================================================================
     # 이벤트 연결 함수 : 위젯 양이 많아 외관 상 밑으로 보냄.

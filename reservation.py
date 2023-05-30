@@ -1,5 +1,5 @@
-from data_structure.LinkedList.Linked_List import *
-from data_structure.Queue.queue_plus import *
+from data_structure.Linked_List import *
+from data_structure.Linked_Queue import *
 from information import *
 import copy
 
